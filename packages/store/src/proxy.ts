@@ -165,7 +165,11 @@ const buildProxyFunction = (
         const remove = propProxyState[3](createPropListener(prop))
         propProxyStates.set(prop, [propProxyState, remove])
       } else {
-        propProxyStates.set(prop, [propProxyState])
+        if (prop === "context") {
+          // console.log("context being added multiple times")
+        } else {
+          propProxyStates.set(prop, [propProxyState])
+        }
       }
     }
     const removePropListener = (prop: string | symbol) => {

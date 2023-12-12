@@ -40,7 +40,12 @@ export function useMachine<
 >(machine: MachineSrc<TContext, TState, TEvent>, options?: S.HookOptions<TContext, TState, TEvent>) {
   const service = useService(machine, options)
 
-  const state = useSnapshot(service.state)
+  const stateSnapshot = useSnapshot(service.state)
+
+  const state = {
+    ...stateSnapshot,
+    context: service.state.context,
+  }
   const typedState = state as unknown as S.State<TContext, TState, TEvent>
   return [typedState, service.send, service] as const
 }
